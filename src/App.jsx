@@ -70,7 +70,22 @@ class App extends Component {
       }
     };
 
-    return <React.Fragment>{displayPosts(this.state.posts)}</React.Fragment>;
+    return (
+      <React.Fragment>
+        <div className="container">
+          <div className="row">
+            <div className="col">
+              <h1>POSTS</h1>
+              <a href="https://jsonplaceholder.typicode.com/posts/">
+                https://jsonplaceholder.typicode.com/posts/
+              </a>
+              <br />
+              {displayPosts(this.state.posts)}
+            </div>
+          </div>
+        </div>
+      </React.Fragment>
+    );
   }
 }
 
