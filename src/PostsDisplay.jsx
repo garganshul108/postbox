@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import http from "./services/httpServices";
-import "bootstrap/dist/css/bootstrap.css";
 
-class App extends Component {
+class PostsDisplay extends Component {
   state = { posts: [] };
   async componentDidMount() {
     let posts = await http.get("https://jsonplaceholder.typicode.com/posts");
@@ -43,6 +42,7 @@ class App extends Component {
                 <th>BODY</th>
                 <th />
                 <th />
+                <th />
               </tr>
             </thead>
             <tbody>
@@ -67,6 +67,14 @@ class App extends Component {
                       onClick={e => alert("no option provided")}
                     >
                       Update
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-info"
+                      onClick={e => alert("no option provided")}
+                    >
+                      View Full Post
                     </button>
                   </td>
                 </tr>
@@ -111,4 +119,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default PostsDisplay;
