@@ -116,7 +116,11 @@ class PostsDisplay extends Component {
     const renderPageElement = pageCount => {
       let pages = [];
       pages.push(
-        <li className="page-item">
+        <li
+          className={
+            this.state.currentPage < 2 ? "page-item disabled" : "page-item"
+          }
+        >
           <Link
             className="page-link"
             onClick={() => {
@@ -126,13 +130,19 @@ class PostsDisplay extends Component {
               this.setState({ currentPage });
             }}
           >
-            Previous
+            <i className="fa fa-chevron-left" aria-hidden="true" />
           </Link>
         </li>
       );
       for (let i = 0; i < pageCount; i++) {
         pages.push(
-          <li className="page-item">
+          <li
+            className={
+              this.state.currentPage === i + 1
+                ? "page-item disabled"
+                : "page-item"
+            }
+          >
             <Link
               className="page-link"
               onClick={({ currentTarget }) => {
@@ -147,7 +157,13 @@ class PostsDisplay extends Component {
         );
       }
       pages.push(
-        <li className="page-item">
+        <li
+          className={
+            this.state.currentPage > this.state.pageCount - 1
+              ? "page-item disabled"
+              : "page-item"
+          }
+        >
           <Link
             className="page-link"
             onClick={() => {
@@ -157,7 +173,7 @@ class PostsDisplay extends Component {
               this.setState({ currentPage });
             }}
           >
-            Next
+            <i className="fa fa-chevron-right" aria-hidden="true" />
           </Link>
         </li>
       );
@@ -213,7 +229,7 @@ class PostsDisplay extends Component {
               <div className="row">
                 <div className="col text-center">
                   <ul
-                    className="pagination"
+                    className="pagination pagination-lg"
                     style={{ margin: "auto", width: "max-content" }}
                   >
                     {renderPageElement(this.state.pageCount)}
