@@ -4,12 +4,11 @@ import http from "./services/httpServices";
 import { Link } from "react-router-dom";
 
 class PostsDisplay extends Component {
-  state = { posts: [] };
+  state = { posts: [], searchQuery: "" };
   async componentDidMount() {
     let posts = await http.get("https://jsonplaceholder.typicode.com/posts");
-    setTimeout(() => {
-      this.setState({ posts: posts.data });
-    }, 2000);
+
+    this.setState({ posts: posts.data });
   }
 
   deletePost = async post => {
@@ -30,6 +29,11 @@ class PostsDisplay extends Component {
     if (deletingPost.status !== 200) {
       this.setState({ posts: originalPosts });
     }
+  };
+
+  filteredBySearch = posts => {
+    posts = posts.filter(post => post.title.startsWith(this.state.searchQuery));
+    return posts;
   };
 
   render() {
@@ -85,7 +89,7 @@ class PostsDisplay extends Component {
           </table>
         );
       else {
-        return <React.Fragment>Loading...</React.Fragment>;
+        return <React.Fragment>No posts available...</React.Fragment>;
       }
     };
 
@@ -98,6 +102,25 @@ class PostsDisplay extends Component {
               <div className="row">
                 <div className="col">
                   <h1>POSTS</h1>
+                </div>
+                <div className="col-5">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">
+                        <i className="fa fa-search" />
+                      </span>
+                    </div>
+                    <input
+                      type="search"
+                      value={this.state.searchQuery}
+                      onChange={({ currentTarget }) => {
+                        this.setState({ searchQuery: currentTarget.value });
+                      }}
+                      class="form-control"
+                      placeholder="Search Post"
+                      aria-label="Search Post"
+                    />
+                  </div>
                 </div>
                 <div className="col-3 text-right">
                   <button
@@ -112,7 +135,7 @@ class PostsDisplay extends Component {
                 https://jsonplaceholder.typicode.com/posts/
               </a>
               <br />
-              {displayPosts(this.state.posts)}
+              {displayPosts(this.filteredBySearch(this.state.posts))}
             </div>
           </div>
         </div>

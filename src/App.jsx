@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
+import "font-awesome/css/font-awesome.css";
 import PostsDisplay from "./PostsDisplay";
 import Post from "./post";
 
