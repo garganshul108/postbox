@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import http from "./services/httpServices";
-
+import queryString from "query-string";
 class Post extends Component {
   state = {
     title: "",
@@ -10,12 +10,19 @@ class Post extends Component {
   };
 
   async componentDidMount() {
-    let { title, body, id } = this.props;
-    let comments = await http.get(
-      "https://jsonplaceholder.typicode.com/comments?postId=" + id
+    let query = queryString.parse(this.props.location.search);
+
+    let { data: post } = await http.get(
+      "https://jsonplaceholder.typicode.com/posts/" + query["post"]
     );
-    comments = comments.data;
-    this.setState({ title, id, body, comments });
+
+    let { data: comments } = await http.get(
+      "https://jsonplaceholder.typicode.com/comments?postId=" + query["post"]
+    );
+
+    this.setState({ ...post, comments }, () => {
+      console.log(this.state);
+    });
   }
 
   componentWillUnmount() {
@@ -53,9 +60,9 @@ class Post extends Component {
       <div className="container">
         <div className="row">
           <div className="col">
-            <h1>
-              Post&nbsp;{id}:&nbsp;{title}
-            </h1>
+            <br />
+            <h1>Post&nbsp;{id}</h1>
+            <h2>{title}</h2>
             <p>{body}</p>
           </div>
         </div>

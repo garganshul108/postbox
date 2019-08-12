@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import http from "./services/httpServices";
 
+import { Link } from "react-router-dom";
+
 class PostsDisplay extends Component {
   state = { posts: [] };
   async componentDidMount() {
@@ -70,12 +72,12 @@ class PostsDisplay extends Component {
                     </button>
                   </td>
                   <td>
-                    <button
+                    <Link
                       className="btn btn-info"
-                      onClick={e => alert("no option provided")}
+                      to={"/comments?post=" + post.id}
                     >
                       View Full Post
-                    </button>
+                    </Link>
                   </td>
                 </tr>
               ))}
