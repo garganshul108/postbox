@@ -42,6 +42,7 @@ class App extends Component {
                 <th>TITLE</th>
                 <th>BODY</th>
                 <th />
+                <th />
               </tr>
             </thead>
             <tbody>
@@ -60,6 +61,14 @@ class App extends Component {
                       Delete
                     </button>
                   </td>
+                  <td>
+                    <button
+                      className="btn btn-info"
+                      onClick={e => alert("no option provided")}
+                    >
+                      Update
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -75,7 +84,20 @@ class App extends Component {
         <div className="container">
           <div className="row">
             <div className="col">
-              <h1>POSTS</h1>
+              <br />
+              <div className="row">
+                <div className="col">
+                  <h1>POSTS</h1>
+                </div>
+                <div className="col-3 text-right">
+                  <button
+                    className="btn btn-primary"
+                    onClick={e => alert("no option provided")}
+                  >
+                    Add a post
+                  </button>
+                </div>
+              </div>
               <a href="https://jsonplaceholder.typicode.com/posts/">
                 https://jsonplaceholder.typicode.com/posts/
               </a>
