@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import http from "./services/httpServices";
+import "bootstrap/dist/css/bootstrap.css";
 
 class App extends Component {
   state = { posts: [] };
@@ -11,7 +12,7 @@ class App extends Component {
   render() {
     const displayPosts = posts => {
       return (
-        <table>
+        <table className="table">
           <thead>
             <tr>
               <th>ID</th>
