@@ -12,17 +12,22 @@ class App extends Component {
   }
 
   deletePost = async post => {
-    let { posts } = this.state;
+    let { posts: originalPosts } = this.state;
+
+    let updatedPosts = [...originalPosts];
+    let i = updatedPosts.indexOf(post);
+    console.log(i);
+    updatedPosts.splice(i, 1);
+    console.log("up", updatedPosts);
+    console.log("or", originalPosts);
+    this.setState({ posts: updatedPosts });
 
     let deletingPost = await http.delete(
-      "https://jsonplaceholder.typicode.com/posts/99" + post.id
+      "https://jsonplaceholder.typicode.com/posts/" + post.id
     );
-
-    if (deletingPost.status === 200) {
-      let i = posts.indexOf(post);
-      console.log(i);
-      posts.splice(i, 1);
-      this.setState({ posts });
+    console.log("ststus", deletingPost);
+    if (deletingPost.status !== 200) {
+      this.setState({ posts: originalPosts });
     }
   };
 
