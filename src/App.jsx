@@ -11,6 +11,21 @@ class App extends Component {
     }, 2000);
   }
 
+  deletePost = async post => {
+    let { posts } = this.state;
+
+    let deletingPost = await http.delete(
+      "https://jsonplaceholder.typicode.com/posts/99" + post.id
+    );
+
+    if (deletingPost.status === 200) {
+      let i = posts.indexOf(post);
+      console.log(i);
+      posts.splice(i, 1);
+      this.setState({ posts });
+    }
+  };
+
   render() {
     const displayPosts = posts => {
       if (posts.length > 0)
@@ -21,14 +36,25 @@ class App extends Component {
                 <th>ID</th>
                 <th>TITLE</th>
                 <th>BODY</th>
+                <th />
               </tr>
             </thead>
             <tbody>
-              {posts.map(({ id, title, body }) => (
+              {posts.map(post => (
                 <tr>
-                  <td>{id}</td>
-                  <td>{title}</td>
-                  <td>{body}</td>
+                  <td>{post.id}</td>
+                  <td>{post.title}</td>
+                  <td>{post.body}</td>
+                  <td>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => {
+                        this.deletePost(post);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
