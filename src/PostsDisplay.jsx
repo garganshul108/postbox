@@ -201,7 +201,11 @@ class PostsDisplay extends Component {
                       type="search"
                       value={this.state.searchQuery}
                       onChange={({ currentTarget }) => {
-                        this.setState({ searchQuery: currentTarget.value });
+                        console.log("changin");
+                        this.setState({
+                          searchQuery: currentTarget.value,
+                          currentPage: 1
+                        });
                       }}
                       className="form-control"
                       placeholder="Search Post"
