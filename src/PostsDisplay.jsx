@@ -4,11 +4,23 @@ import http from "./services/httpServices";
 import { Link } from "react-router-dom";
 
 class PostsDisplay extends Component {
-  state = { posts: [], searchQuery: "" };
-  async componentDidMount() {
-    let posts = await http.get("https://jsonplaceholder.typicode.com/posts");
+  state = {
+    posts: [],
+    searchQuery: "",
+    pageSize: 1,
+    currentPage: 1,
+    pageCount: 10
+  };
 
-    this.setState({ posts: posts.data });
+  async componentDidMount() {
+    let { data: posts } = await http.get(
+      "https://jsonplaceholder.typicode.com/posts"
+    );
+    let pageSize = 10;
+    let pageCount = Math.ceil(posts.length / pageSize);
+    this.setState({ posts, pageSize, pageCount }, () => {
+      console.log(this.state);
+    });
   }
 
   deletePost = async post => {
@@ -33,6 +45,14 @@ class PostsDisplay extends Component {
 
   filteredBySearch = posts => {
     posts = posts.filter(post => post.title.startsWith(this.state.searchQuery));
+    return posts;
+  };
+
+  paginate = posts => {
+    let { pageSize, currentPage } = this.state;
+    let startIndex = (currentPage - 1) * pageSize;
+    let endIndex = Math.min(pageSize + startIndex, posts.length);
+    posts = posts.slice(startIndex, endIndex);
     return posts;
   };
 
@@ -93,6 +113,57 @@ class PostsDisplay extends Component {
       }
     };
 
+    const renderPageElement = pageCount => {
+      let pages = [];
+      pages.push(
+        <li className="page-item">
+          <Link
+            className="page-link"
+            onClick={() => {
+              let { currentPage } = this.state;
+              if (currentPage < 2) return;
+              currentPage = currentPage - 1;
+              this.setState({ currentPage });
+            }}
+          >
+            Previous
+          </Link>
+        </li>
+      );
+      for (let i = 0; i < pageCount; i++) {
+        pages.push(
+          <li className="page-item">
+            <Link
+              className="page-link"
+              onClick={({ currentTarget }) => {
+                this.setState({
+                  currentPage: parseInt(currentTarget.innerHTML)
+                });
+              }}
+            >
+              {i + 1}
+            </Link>
+          </li>
+        );
+      }
+      pages.push(
+        <li className="page-item">
+          <Link
+            className="page-link"
+            onClick={() => {
+              let { currentPage, pageCount } = this.state;
+              if (currentPage > pageCount - 1) return;
+              currentPage = currentPage + 1;
+              this.setState({ currentPage });
+            }}
+          >
+            Next
+          </Link>
+        </li>
+      );
+      return pages;
+    };
+
     return (
       <React.Fragment>
         <div className="container">
@@ -104,9 +175,9 @@ class PostsDisplay extends Component {
                   <h1>POSTS</h1>
                 </div>
                 <div className="col-5">
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="basic-addon1">
+                  <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text" id="basic-addon1">
                         <i className="fa fa-search" />
                       </span>
                     </div>
@@ -116,7 +187,7 @@ class PostsDisplay extends Component {
                       onChange={({ currentTarget }) => {
                         this.setState({ searchQuery: currentTarget.value });
                       }}
-                      class="form-control"
+                      className="form-control"
                       placeholder="Search Post"
                       aria-label="Search Post"
                     />
@@ -131,11 +202,30 @@ class PostsDisplay extends Component {
                   </button>
                 </div>
               </div>
-              <a href="https://jsonplaceholder.typicode.com/posts/">
-                https://jsonplaceholder.typicode.com/posts/
-              </a>
+              <div className="row">
+                <div className="col">
+                  <a href="https://jsonplaceholder.typicode.com/posts/">
+                    https://jsonplaceholder.typicode.com/posts/
+                  </a>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col text-center">
+                  <ul
+                    className="pagination"
+                    style={{ margin: "auto", width: "max-content" }}
+                  >
+                    {renderPageElement(this.state.pageCount)}
+                  </ul>
+                  {/* </nav> */}
+                </div>
+              </div>
+
               <br />
-              {displayPosts(this.filteredBySearch(this.state.posts))}
+              {displayPosts(
+                this.paginate(this.filteredBySearch(this.state.posts))
+              )}
             </div>
           </div>
         </div>
