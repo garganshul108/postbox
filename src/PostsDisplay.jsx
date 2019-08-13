@@ -16,7 +16,7 @@ class PostsDisplay extends Component {
     let { data: posts } = await http.get(
       "https://jsonplaceholder.typicode.com/posts"
     );
-    let pageSize = 5;
+    let pageSize = 4;
     let pageCount = Math.ceil(posts.length / pageSize);
     this.setState({ posts, pageSize, pageCount }, () => {
       console.log(this.state);
