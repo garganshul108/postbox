@@ -138,26 +138,6 @@ class PostsDisplay extends Component {
           </Link>
         </li>
       );
-      // for (let i = 0; i < pageCount; i++) {
-      //   pages.push(
-      //     <li
-      //       className={
-      //         currentPage === i + 1 ? "page-item disabled" : "page-item"
-      //       }
-      //     >
-      //       <Link
-      //         className="page-link"
-      //         onClick={({ currentTarget }) => {
-      //           this.setState({
-      //             currentPage: parseInt(currentTarget.innerHTML)
-      //           });
-      //         }}
-      //       >
-      //         {i + 1}
-      //       </Link>
-      //     </li>
-      //   );
-      // }
 
       for (let i = 1; i < pageCount; i++) {
         if (pageInserted[i]) {
@@ -179,7 +159,7 @@ class PostsDisplay extends Component {
           );
         } else if (pageInserted[i - 1]) {
           pages.push(
-            <li className="page-item disabled">
+            <li className="page-item disabled dots">
               <Link className="page-link">...</Link>
             </li>
           );
@@ -225,6 +205,27 @@ class PostsDisplay extends Component {
           </Link>
         </li>
       );
+      if (pages.length < 9) {
+        let index = 0;
+        for (let i = 0; i < pages.length; i++) {
+          console.log();
+          if (pages[i].props.className.split(" ").includes("dots")) {
+            index = i;
+            break;
+          }
+        }
+
+        let diff = 9 - pages.length;
+        for (let i = 0; i < diff; i++) {
+          pages.splice(
+            index,
+            0,
+            <li className="page-item disabled">
+              <Link className="page-link">...</Link>
+            </li>
+          );
+        }
+      }
       return pages;
     };
 
