@@ -16,7 +16,7 @@ class PostsDisplay extends Component {
     let { data: posts } = await http.get(
       "https://jsonplaceholder.typicode.com/posts"
     );
-    let pageSize = 10;
+    let pageSize = 5;
     let pageCount = Math.ceil(posts.length / pageSize);
     this.setState({ posts, pageSize, pageCount }, () => {
       console.log(this.state);
@@ -115,12 +115,16 @@ class PostsDisplay extends Component {
 
     const renderPageElement = pageCount => {
       let pages = [];
+      let pageInserted = [];
+      const { currentPage } = this.state;
+      for (let i = 1; i < pageCount + 1; i++) pageInserted[i] = false;
+      pageInserted[1] = true;
+      pageInserted[pageCount] = true;
+      for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+        if (i > 0 && i <= pageCount) pageInserted[i] = true;
+      }
       pages.push(
-        <li
-          className={
-            this.state.currentPage < 2 ? "page-item disabled" : "page-item"
-          }
-        >
+        <li className={currentPage < 2 ? "page-item disabled" : "page-item"}>
           <Link
             className="page-link"
             onClick={() => {
@@ -134,32 +138,76 @@ class PostsDisplay extends Component {
           </Link>
         </li>
       );
-      for (let i = 0; i < pageCount; i++) {
-        pages.push(
-          <li
-            className={
-              this.state.currentPage === i + 1
-                ? "page-item disabled"
-                : "page-item"
-            }
-          >
-            <Link
-              className="page-link"
-              onClick={({ currentTarget }) => {
-                this.setState({
-                  currentPage: parseInt(currentTarget.innerHTML)
-                });
-              }}
+      // for (let i = 0; i < pageCount; i++) {
+      //   pages.push(
+      //     <li
+      //       className={
+      //         currentPage === i + 1 ? "page-item disabled" : "page-item"
+      //       }
+      //     >
+      //       <Link
+      //         className="page-link"
+      //         onClick={({ currentTarget }) => {
+      //           this.setState({
+      //             currentPage: parseInt(currentTarget.innerHTML)
+      //           });
+      //         }}
+      //       >
+      //         {i + 1}
+      //       </Link>
+      //     </li>
+      //   );
+      // }
+
+      for (let i = 1; i < pageCount; i++) {
+        if (pageInserted[i]) {
+          pages.push(
+            <li
+              className={currentPage === i ? "page-item disabled" : "page-item"}
             >
-              {i + 1}
-            </Link>
-          </li>
-        );
+              <Link
+                className="page-link"
+                onClick={({ currentTarget }) => {
+                  this.setState({
+                    currentPage: parseInt(currentTarget.innerHTML)
+                  });
+                }}
+              >
+                {i}
+              </Link>
+            </li>
+          );
+        } else if (pageInserted[i - 1]) {
+          pages.push(
+            <li className="page-item disabled">
+              <Link className="page-link">...</Link>
+            </li>
+          );
+        }
       }
+
       pages.push(
         <li
           className={
-            this.state.currentPage > this.state.pageCount - 1
+            currentPage === pageCount ? "page-item disabled" : "page-item"
+          }
+        >
+          <Link
+            className="page-link"
+            onClick={({ currentTarget }) => {
+              this.setState({
+                currentPage: parseInt(currentTarget.innerHTML)
+              });
+            }}
+          >
+            {pageCount}
+          </Link>
+        </li>
+      );
+      pages.push(
+        <li
+          className={
+            currentPage > this.state.pageCount - 1
               ? "page-item disabled"
               : "page-item"
           }
