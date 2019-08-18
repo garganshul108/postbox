@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import http from "./services/httpServices";
 
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 class PostsDisplay extends Component {
   state = {
@@ -90,7 +91,7 @@ class PostsDisplay extends Component {
                   <td>
                     <button
                       className="btn btn-info"
-                      onClick={e => alert("no option provided")}
+                      onClick={e => toast.info("no option provided")}
                     >
                       Update
                     </button>
@@ -265,7 +266,7 @@ class PostsDisplay extends Component {
                 <div className="col-3 text-right">
                   <button
                     className="btn btn-primary"
-                    onClick={e => alert("no option provided")}
+                    onClick={e => toast.info("no option provided")}
                   >
                     Add a post
                   </button>
