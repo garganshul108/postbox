@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.css";
-import "font-awesome/css/font-awesome.css";
+import { ToastContainer } from "react-toastify";
 import PostsDisplay from "./PostsDisplay";
 import Post from "./post";
-import { ToastContainer } from "react-toastify";
+import "bootstrap/dist/css/bootstrap.css";
+import "font-awesome/css/font-awesome.css";
 import "react-toastify/dist/ReactToastify.css";
 
 class App extends Component {

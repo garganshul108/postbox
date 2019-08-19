@@ -61,7 +61,7 @@ class PostsDisplay extends Component {
     const displayPosts = posts => {
       if (posts.length > 0)
         return (
-          <table className="table">
+          <table className="table table-responsive">
             <thead>
               <tr>
                 <th>ID</th>
@@ -231,16 +231,20 @@ class PostsDisplay extends Component {
     };
 
     return (
-      <React.Fragment>
+      <main>
         <div className="container">
+          {/* main box */}
           <div className="row">
-            <div className="col">
+            <div className="col-12 col-sm-12">
               <br />
               <div className="row">
-                <div className="col">
-                  <h1>POSTS</h1>
+                {/* top bar with heading seach and button */}
+                <div className="col-12 col-sm-12  col-md-3 text-center">
+                  {/* heading */}
+                  <h1 className="display-5">POSTS</h1>
                 </div>
-                <div className="col-5">
+                <div className="col-12 col-sm-10 col-md-7">
+                  {/* search */}
                   <div className="input-group mb-3">
                     <div className="input-group-prepend">
                       <span className="input-group-text" id="basic-addon1">
@@ -263,7 +267,8 @@ class PostsDisplay extends Component {
                     />
                   </div>
                 </div>
-                <div className="col-3 text-right">
+                <div className="col-12 col-sm-2 col-md-2 text-center">
+                  {/* button of add post */}
                   <button
                     className="btn btn-primary"
                     onClick={e => toast.info("no option provided")}
@@ -273,33 +278,36 @@ class PostsDisplay extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col">
+                {/* contains the link to JSONPLACEHOLDER */}
+                <div className="col-12 text-center">
                   <a href="https://jsonplaceholder.typicode.com/posts/">
                     https://jsonplaceholder.typicode.com/posts/
                   </a>
                 </div>
               </div>
 
-              <div className="row">
-                <div className="col text-center">
+              {/* <div className="row">
+                <div className="col-12 text-center">
                   <ul
-                    className="pagination pagination-lg"
+                    className="pagination pagination-responsive"
                     style={{ margin: "auto", width: "max-content" }}
                   >
                     {renderPageElement(this.state.pageCount)}
                   </ul>
-                  {/* </nav> */}
+                </div>
+              </div> */}
+              <br />
+              <div className="row">
+                <div className="col-12">
+                  {displayPosts(
+                    this.paginate(this.filteredBySearch(this.state.posts))
+                  )}
                 </div>
               </div>
-
-              <br />
-              {displayPosts(
-                this.paginate(this.filteredBySearch(this.state.posts))
-              )}
             </div>
           </div>
         </div>
-      </React.Fragment>
+      </main>
     );
   }
 }
