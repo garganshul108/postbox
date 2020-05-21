@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import http from "./services/httpServices";
 import queryString from "query-string";
+import postController from "./controller";
 
 class Post extends Component {
   state = {
@@ -13,13 +14,7 @@ class Post extends Component {
   async componentDidMount() {
     let query = queryString.parse(this.props.location.search);
 
-    let { data: post } = await http.get(
-      "https://jsonplaceholder.typicode.com/posts/" + query["post"]
-    );
-
-    let { data: comments } = await http.get(
-      "https://jsonplaceholder.typicode.com/comments?postId=" + query["post"]
-    );
+    let { post } = postController.get({ query: query["post"] });
 
     this.setState({ ...post, comments }, () => {
       console.log(this.state);

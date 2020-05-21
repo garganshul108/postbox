@@ -1,4 +1,4 @@
-const httpService = require("../../services/httpServices");
+const httpService = require("../../../services/httpServices");
 
 const baseURL = "https://jsonplaceholder.typicode.com/posts";
 

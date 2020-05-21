@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.css";
 import PostsDisplay from "./PostsDisplay";
-import Post from "./post";
+import Post from "./post/post";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -16,7 +16,7 @@ class App extends Component {
             position: "fixed",
             top: "10px",
             right: "10px",
-            zIndex: "20"
+            zIndex: "20",
           }}
         >
           <ToastContainer />
