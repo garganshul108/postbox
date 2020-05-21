@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import http from "./services/httpServices";
 import queryString from "query-string";
+
 class Post extends Component {
   state = {
     title: "",
     id: "",
     body: "",
-    comments: []
+    comments: [],
   };
 
   async componentDidMount() {
@@ -31,7 +32,7 @@ class Post extends Component {
   render() {
     const { title, id, body, comments } = this.state;
 
-    const renderComments = comments => {
+    const renderComments = (comments) => {
       if (comments.length > 0)
         return (
           <table className="table">
